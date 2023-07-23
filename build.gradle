@@ -1,6 +1,3 @@
-apply plugin: 'eclipse'
-apply plugin: 'java'
-
 repositories {
 	mavenCentral()
 }
@@ -8,9 +5,6 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
-
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
 }
 
 test {
@@ -25,5 +19,3 @@ task buildSrcFolders {
 		mkdir("src/test/java")
 	}
 }
-
-tasks.eclipse.dependsOn buildSrcFolders
