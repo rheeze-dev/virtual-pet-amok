@@ -7,8 +7,13 @@ public class RoboticDog extends RoboticPet implements Dog {
         this.setDescription("Robotic Dog");
     }
 
+    public RoboticDog(String name, int health, int happiness, int oilLevel, int maintenance) {
+        super(name, health, happiness, oilLevel, maintenance);
+        this.setDescription("Robotic Dog");
+    }
+
     @Override
-    public String walkPet(int value) {
+    public String walkDog(int value) {
         setHappiness(getHappiness() - value);
         setOilLevel(getOilLevel() + value);
         if (value == 20) {
@@ -31,7 +36,7 @@ public class RoboticDog extends RoboticPet implements Dog {
         if (index == 0)
             return addOil(5);
         else
-            return walkPet(5);
+            return walkDog(5);
     }
 
 }

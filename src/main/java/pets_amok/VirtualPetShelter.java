@@ -89,6 +89,64 @@ public class VirtualPetShelter {
         return str.toString();
     }
 
+    public String performMaintenanceAll() {
+        StringBuilder str = new StringBuilder();
+        for (VirtualPet pet : getAllPets()) {
+            if (pet instanceof RoboticPet) {
+                RoboticPet roboticPet = (RoboticPet) pet;
+                str.append(roboticPet.performMaintenance(20) + "\n");
+            }
+        }
+        return str.toString();
+    }
+
+    public String addOilAll() {
+        StringBuilder str = new StringBuilder();
+        for (VirtualPet pet : getAllPets()) {
+            if (pet instanceof RoboticPet) {
+                RoboticPet roboticPet = (RoboticPet) pet;
+                str.append(roboticPet.addOil(20) + "\n");
+            }
+        }
+        return str.toString();
+    }
+
+    public String cleanLitterBoxAll() {
+        StringBuilder str = new StringBuilder();
+        for (VirtualPet pet : getAllPets()) {
+            if (pet instanceof OrganicCat) {
+                OrganicCat organicCat = (OrganicCat) pet;
+                str.append(organicCat.cleanLitterBox() + "\n");
+            }
+        }
+        return str.toString();
+    }
+
+    public String cleanAllCages() {
+        StringBuilder str = new StringBuilder();
+        for (VirtualPet pet : getAllPets()) {
+            if (pet instanceof OrganicDog) {
+                OrganicDog organicDog = (OrganicDog) pet;
+                str.append(organicDog.cleanCage() + "\n");
+            }
+        }
+        return str.toString();
+    }
+
+    public String walkAllDogs() {
+        StringBuilder str = new StringBuilder();
+        for (VirtualPet pet : getAllPets()) {
+            if (pet instanceof OrganicDog) {
+                OrganicDog organicDog = (OrganicDog) pet;
+                str.append(organicDog.walkDog(20) + "\n");
+            } else {
+                RoboticDog roboticDog = (RoboticDog) pet;
+                str.append(roboticDog.walkDog(20) + "\n");
+            }
+        }
+        return str.toString();
+    }
+
     public boolean hasPetName(String name) {
         if (pets.containsKey(name)) {
             return true;
@@ -162,7 +220,7 @@ public class VirtualPetShelter {
     public String displayAllStats() {
         StringBuilder str = new StringBuilder();
         str.append("Name\t\t|Hunger\t\t|Thirst\t\t|Tiredness\t|Boredom\t|Sickness\t|Happiness\t|Oil level\t|\n"
-                + "----------------|---------------|---------------|---------------|---------------|---------------|\n");
+                + "----------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|\n");
         for (VirtualPet pet : getAllPets()) {
             if (pet instanceof OrganicPet) {
                 OrganicPet organicPet = (OrganicPet) pet;

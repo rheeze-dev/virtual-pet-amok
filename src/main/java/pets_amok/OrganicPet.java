@@ -2,7 +2,7 @@ package pets_amok;
 
 import java.util.Random;
 
-public class OrganicPet extends VirtualPet {
+public abstract class OrganicPet extends VirtualPet {
 
     private int hunger;
     private int thirst;
@@ -19,6 +19,17 @@ public class OrganicPet extends VirtualPet {
         this.tiredness = 30;
         this.boredom = 40;
         this.sickness = 50;
+    }
+
+    public OrganicPet(String name, int health, int happiness, int hunger, int thirst, int tiredness, int boredom,
+            int sickness) {
+        super(name, health, happiness);
+        this.setDescription("Organic Pet");
+        this.hunger = hunger;
+        this.thirst = thirst;
+        this.tiredness = tiredness;
+        this.boredom = boredom;
+        this.sickness = sickness;
     }
 
     public int getHunger() {
@@ -162,7 +173,7 @@ public class OrganicPet extends VirtualPet {
     @Override
     public String displayStats() {
         return getName() + "\t\t|" + getHunger() + "%\t\t|" + getThirst() + "%\t\t|" + getTiredness()
-                + "%\t\t|" + getBoredom() + "%\t\t|" + getSickness() + "%\t\t|" + getHappiness() + "%\t\t|NA\t\t";
+                + "%\t\t|" + getBoredom() + "%\t\t|" + getSickness() + "%\t\t|" + getHappiness() + "%\t\t|NA\t\t|";
     }
 
     @Override

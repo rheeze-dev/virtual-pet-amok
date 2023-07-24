@@ -1,6 +1,7 @@
 package pets_amok;
 
 public class OrganicCat extends OrganicPet {
+
     private static int litterBox = 0;
 
     public OrganicCat(String name, int health, int happiness) {
@@ -14,6 +15,11 @@ public class OrganicCat extends OrganicPet {
 
     public static void setLitterBox(int newLitter) {
         litterBox = newLitter;
+    }
+
+    public String cleanLitterBox() {
+        setLitterBox(getLitterBox() - 20);
+        return "Litter box has been cleaned.";
     }
 
 }

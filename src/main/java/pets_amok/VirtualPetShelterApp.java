@@ -74,7 +74,7 @@ public class VirtualPetShelterApp {
                     promptAdditionalDetails(petName, description);
                 else {
                     System.out.println();
-                    pets.rescuePet(new VirtualPet(petName, description));
+                    // pets.rescuePet(new organicDog(petName, description));
                 }
             } else if (toDo == 8) {
                 promptAdoptPet();
@@ -145,8 +145,10 @@ public class VirtualPetShelterApp {
     }
 
     private static void initialPets() {
-        pets.rescuePet(new VirtualPet("Mali", "The monkey", 10, 20, 30, 40, 50));
-        pets.rescuePet(new VirtualPet("Kupa", "Big brown Wolf", 50, 40, 30, 20, 10));
+        pets.rescuePet(new OrganicDog("Mali", 10, 20));
+        pets.rescuePet(new OrganicCat("Kupa", 50, 40));
+        pets.rescuePet(new RoboticDog("RoboDog", 20, 40));
+        pets.rescuePet(new RoboticCat("RoboCat", 50, 10));
     }
 
     private static void promptGameMenu() {
@@ -186,7 +188,8 @@ public class VirtualPetShelterApp {
         System.out.print("Please enter Pet's sickness level (any number from 0 to 99): ");
         int sickness = scanner.nextInt();
         System.out.println();
-        pets.rescuePet(new VirtualPet(petName, description, hunger, thirst, tiredness, boredom, sickness));
+        // pets.rescuePet(new OrganicCat(petName, description, hunger, thirst,
+        // tiredness, boredom, sickness));
     }
 
     private static void promptAdoptPet() {

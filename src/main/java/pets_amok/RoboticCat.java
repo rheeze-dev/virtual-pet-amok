@@ -7,6 +7,11 @@ public class RoboticCat extends RoboticPet {
         this.setDescription("Robotic Cat");
     }
 
+    public RoboticCat(String name, int health, int happiness, int oilLevel, int maintenance) {
+        super(name, health, happiness, oilLevel, maintenance);
+        this.setDescription("Robotic Cat");
+    }
+
     @Override
     public String performPriorityNeed() {
         int[] arr = { getOilLevel(), getHappiness() };
