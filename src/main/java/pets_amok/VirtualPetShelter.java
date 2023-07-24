@@ -32,7 +32,10 @@ public class VirtualPetShelter {
     public String feedAll(int value) {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
-            str.append(pet.feed(value) + "\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                str.append(organicPet.feed(value) + "\n");
+            }
         }
         return str.toString();
     }
@@ -40,7 +43,10 @@ public class VirtualPetShelter {
     public String hydrateAll() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
-            str.append(pet.hydrate(20) + "\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                str.append(organicPet.hydrate(20) + "\n");
+            }
         }
         return str.toString();
     }
@@ -48,7 +54,10 @@ public class VirtualPetShelter {
     public String restAll() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
-            str.append(pet.rest(20) + "\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                str.append(organicPet.rest(20) + "\n");
+            }
         }
         return str.toString();
     }
@@ -56,19 +65,26 @@ public class VirtualPetShelter {
     public String playAll() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
-            str.append(pet.play(20) + "\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                str.append(organicPet.play(20) + "\n");
+            }
         }
         return str.toString();
     }
 
     public String playPet(String name) {
-        return getPet(name).play(20) + "\n";
+        OrganicPet pet = (OrganicPet) getPet(name);
+        return pet.play(20) + "\n";
     }
 
     public String healAll() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
-            str.append(pet.heal(20) + "\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                str.append(organicPet.heal(20) + "\n");
+            }
         }
         return str.toString();
     }
@@ -88,9 +104,16 @@ public class VirtualPetShelter {
 
     public boolean areValuesLessThan100() {
         for (VirtualPet pet : getAllPets()) {
-            if (pet.getHunger() >= 100 || pet.getThirst() >= 100 || pet.getTiredness() >= 100 || pet.getBoredom() >= 100
-                    || pet.getSickness() >= 100) {
-                return false;
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                if (organicPet.getHunger() >= 100 || organicPet.getThirst() >= 100 || organicPet.getTiredness() >= 100
+                        || organicPet.getBoredom() >= 100 || organicPet.getSickness() >= 100
+                        || organicPet.getHappiness() >= 100)
+                    return false;
+            } else {
+                RoboticPet roboticPet = (RoboticPet) pet;
+                if (roboticPet.getOilLevel() >= 100 || roboticPet.getHappiness() >= 100)
+                    return false;
             }
         }
         return true;
@@ -99,16 +122,25 @@ public class VirtualPetShelter {
     public String displayMessage() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
-            if (pet.getHunger() >= 100)
-                str.append(pet.getName() + " starved!\n");
-            if (pet.getThirst() >= 100)
-                str.append(pet.getName() + " got dehydrated!\n");
-            if (pet.getTiredness() >= 100)
-                str.append(pet.getName() + " got soo tired!\n");
-            if (pet.getBoredom() >= 100)
-                str.append(pet.getName() + " got soo bored!\n");
-            if (pet.getSickness() >= 100)
-                str.append(pet.getName() + " got soo sick!\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                if (organicPet.getHunger() >= 100)
+                    str.append(organicPet.getName() + " starved!\n");
+                if (organicPet.getThirst() >= 100)
+                    str.append(organicPet.getName() + " got dehydrated!\n");
+                if (organicPet.getTiredness() >= 100)
+                    str.append(organicPet.getName() + " got soo tired!\n");
+                if (organicPet.getBoredom() >= 100)
+                    str.append(organicPet.getName() + " got soo bored!\n");
+                if (organicPet.getSickness() >= 100)
+                    str.append(organicPet.getName() + " got soo sick!\n");
+            } else {
+                RoboticPet roboticPet = (RoboticPet) pet;
+                if (roboticPet.getOilLevel() >= 100)
+                    str.append(roboticPet.getName() + " stopped working due to rust!");
+                if (roboticPet.getHappiness() >= 100)
+                    str.append(roboticPet.getName() + " stopped working due to sadness!");
+            }
         }
         return str.toString();
     }
@@ -116,17 +148,29 @@ public class VirtualPetShelter {
     public String performPriorityNeedAll() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
-            str.append(pet.performPriorityNeed() + "\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                str.append(organicPet.performPriorityNeed() + "\n");
+            } else {
+                RoboticPet roboticPet = (RoboticPet) pet;
+                str.append(roboticPet.performPriorityNeed() + "\n");
+            }
         }
         return str.toString();
     }
 
     public String displayAllStats() {
         StringBuilder str = new StringBuilder();
-        str.append("Name\t\t|Hunger\t\t|Thirst\t\t|Tiredness\t|Boredom\t|Sickness\t|\n"
+        str.append("Name\t\t|Hunger\t\t|Thirst\t\t|Tiredness\t|Boredom\t|Sickness\t|Happiness\t|Oil level\t|\n"
                 + "----------------|---------------|---------------|---------------|---------------|---------------|\n");
         for (VirtualPet pet : getAllPets()) {
-            str.append(pet.displayStats() + "\n");
+            if (pet instanceof OrganicPet) {
+                OrganicPet organicPet = (OrganicPet) pet;
+                str.append(organicPet.displayStats() + "\n");
+            } else {
+                RoboticPet roboticPet = (RoboticPet) pet;
+                str.append(roboticPet.displayStats() + "\n");
+            }
         }
         return str.toString();
     }
