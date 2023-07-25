@@ -79,6 +79,14 @@ public class VirtualPetShelterApp {
             } else if (toDo == 8) {
                 promptAdoptPet();
                 adoptionChecker();
+            } else if (toDo == 9) {
+                pets.walkAllDogs();
+            } else if (toDo == 10) {
+                pets.cleanAllCages();
+            } else if (toDo == 11) {
+                pets.addOilAll();
+            } else if (toDo == 12) {
+                pets.cleanLitterBoxAll();
             } else {
                 System.out.println("The game has been closed!");
                 break;
@@ -161,7 +169,11 @@ public class VirtualPetShelterApp {
         System.out.println("6. Do nothing");
         System.out.println("7. Rescue a pet");
         System.out.println("8. Adopt a pet");
-        System.out.println("Enter any number except 1 to 8 to quit the game.");
+        System.out.println("9. Walk all dogs");
+        System.out.println("10. Clean dog cages");
+        System.out.println("11. Oil all robotic pets");
+        System.out.println("12. Clean the shelter litterbox");
+        System.out.println("Enter any number except 1 to 12 to quit the game.");
         System.out.println();
         System.out.print("> ");
     }
