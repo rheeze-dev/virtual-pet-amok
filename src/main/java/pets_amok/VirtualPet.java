@@ -6,11 +6,14 @@ public abstract class VirtualPet {
     private int health;
     private int happiness;
 
-    public VirtualPet(String name, int health, int happiness) {
+    public VirtualPet(String name) {
+    }
+
+    public VirtualPet(String name, int happiness) {
         this.name = name;
         this.description = "Virtual Pet";
-        this.health = health;
         this.happiness = happiness;
+        this.health = 100;
     }
 
     public String getName() {
@@ -48,6 +51,8 @@ public abstract class VirtualPet {
     public abstract String performPriorityNeed();
 
     public abstract String displayStats();
+
+    public abstract void healthChecker();
 
     public abstract void tick();
 

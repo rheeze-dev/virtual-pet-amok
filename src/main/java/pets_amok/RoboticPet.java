@@ -3,19 +3,17 @@ package pets_amok;
 public abstract class RoboticPet extends VirtualPet {
 
     private int oilLevel;
-    private int maintenance;
 
-    public RoboticPet(String name, int health, int happiness) {
-        super(name, health, happiness);
+    public RoboticPet(String name, int happiness) {
+        super(name, happiness);
         this.setDescription("Robotic Pet");
-        this.oilLevel = 10;
-        this.maintenance = 20;
+        this.oilLevel = 70;
     }
 
-    public RoboticPet(String name, int health, int happiness, int oilLevel, int maintenance) {
-        super(name, health, happiness);
+    public RoboticPet(String name, int happiness, int oilLevel) {
+        super(name, happiness);
+        this.setDescription("Robotic Pet");
         this.oilLevel = oilLevel;
-        this.maintenance = maintenance;
     }
 
     public int getOilLevel() {
@@ -26,40 +24,38 @@ public abstract class RoboticPet extends VirtualPet {
         this.oilLevel = oilLevel;
     }
 
-    public int getMaintenance() {
-        return this.oilLevel;
-    }
-
-    public void setMaintenance(int maintenance) {
-        this.maintenance = maintenance;
-    }
-
     public String addOil(int value) {
         setOilLevel(getOilLevel() + value);
-        setHappiness(getHappiness() - value);
+        setHappiness(getHappiness() + value);
+        if (getOilLevel() >= 100)
+            setOilLevel(100);
+        if (getHappiness() >= 100)
+            setHappiness(100);
         if (value == 20)
             return "You added oil to " + getName();
-        return getName() + " added oil on itself.";
-
+        return getName() + " added oil to itself.";
     }
 
-    public String performMaintenance(int value) {
-        setMaintenance(getMaintenance() + value);
-        if (value == 20)
-            return "You performed maintenance to " + getName();
-        return getName() + " performed maintenance on itself.";
+    @Override
+    public void healthChecker() {
+        if (getOilLevel() >= getHappiness()) {
+            setHealth(getHappiness());
+        } else {
+            setHealth(getOilLevel());
+        }
     }
 
     @Override
     public String displayStats() {
-        return getName() + "\t\t|NA\t\t|NA\t\t|NA\t\t|NA\t\t|NA\t\t|" + getHappiness() + "%\t\t|"
-                + getOilLevel() + "%\t\t|";
+        return getName() + "\t|" + getDescription() + "\t|" + "NA\t|NA\t|NA\t\t|NA\t\t|NA\t\t|NA\t|NA\t\t|"
+                + getHappiness() + "%\t\t|"
+                + getOilLevel() + "%\t|" + getHealth() + "%\t|";
     }
 
     @Override
     public void tick() {
-        setOilLevel(getOilLevel() + 3);
-        setHappiness(getHappiness() + 3);
+        setOilLevel(getOilLevel() - 10);
+        setHappiness(getHappiness() - 10);
     }
 
 }

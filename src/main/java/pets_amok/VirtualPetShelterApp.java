@@ -10,7 +10,7 @@ public class VirtualPetShelterApp {
     public static void main(String[] args) {
         initialPets();
         System.out.println("Thank you for volunteering at Big Al's Virtual Pet Shelter!");
-        while (pets.areValuesLessThan100()) {
+        while (pets.isHealthGreaterThan0()) {
             System.out.println("Status of your pets: ");
             System.out.println(pets.displayAllStats());
             promptGameMenu();
@@ -23,13 +23,13 @@ public class VirtualPetShelterApp {
                 int food = scanner.nextInt();
                 System.out.println();
                 if (food == 1) {
-                    System.out.println("Pet food are pets favorite food.");
+                    System.out.println("Pet food are organic pets favorite food.");
                     System.out.println(pets.feedAll(30));
                 } else if (food == 2) {
-                    System.out.println("Treats are pets 2nd favorite food.");
+                    System.out.println("Treats are organic pets 2nd favorite food.");
                     System.out.println(pets.feedAll(20));
                 } else if (food == 3) {
-                    System.out.println("Left-overs are pets worst food. The pets refused to eat it.\n");
+                    System.out.println("Left-overs are organic pets worst food. The organic pets refused to eat it.\n");
                 } else
                     continue;
             } else if (toDo == 2)
@@ -38,13 +38,13 @@ public class VirtualPetShelterApp {
                 System.out.println(pets.restAll());
             else if (toDo == 4) {
                 System.out.print(
-                        "Press 1 to play with a single pet. Press 2 to play with all the pets. Press any number except 1 and 2 to change what you want to do: ");
+                        "Press 1 to play with a single organic pet. Press 2 to play with all the organic pets. Press any number except 1 and 2 to change what you want to do: ");
                 inputChecker();
                 int input = scanner.nextInt();
                 scanner.nextLine();
                 if (input == 1) {
-                    System.out.print("Pet names: ");
-                    System.out.println(pets.getAllPetNames());
+                    System.out.print("Organic pets names: ");
+                    System.out.println(pets.getAllOrganicPetNames());
                     playSinglePet();
                 } else if (input == 2)
                     System.out.println(pets.playAll());
@@ -58,6 +58,13 @@ public class VirtualPetShelterApp {
                 System.out.println("Did nothing.");
             else if (toDo == 7) {
                 System.out.print(
+                        "Press 1 if the pet is organic dog, press 2 if the pet is organic cat, press 3 if the pet is robotic dog, press 4 if the pet is robotic cat, press any number except 1 to 4 to change what you want to do: ");
+                inputChecker();
+                int typeOfPet = scanner.nextInt();
+                scanner.nextLine();
+                if (typeOfPet < 1 && typeOfPet > 4)
+                    continue;
+                System.out.print(
                         "Press 1 to specify all stats, press 0 to discontinue the rescue process or press any number except 1 and 0 to use default stats: ");
                 inputChecker();
                 int input = scanner.nextInt();
@@ -68,25 +75,32 @@ public class VirtualPetShelterApp {
                 }
                 System.out.print("Please enter Pet's name: ");
                 String petName = petNameChecker();
-                System.out.print("Please enter Pet's description: ");
-                String description = scanner.nextLine();
+                System.out.print("Please enter organic pet's happiness level (any number from 0 to 99): ");
+                int happiness = scanner.nextInt();
                 if (input == 1)
-                    promptAdditionalDetails(petName, description);
+                    promptAdditionalDetails(petName, happiness, typeOfPet);
                 else {
                     System.out.println();
-                    // pets.rescuePet(new organicDog(petName, description));
+                    if (typeOfPet == 1)
+                        pets.rescuePet(new OrganicDog(petName, happiness));
+                    else if (typeOfPet == 2)
+                        pets.rescuePet(new OrganicCat(petName, happiness));
+                    else if (typeOfPet == 3)
+                        pets.rescuePet(new RoboticDog(petName, happiness));
+                    else
+                        pets.rescuePet(new RoboticCat(petName, happiness));
                 }
             } else if (toDo == 8) {
                 promptAdoptPet();
                 adoptionChecker();
             } else if (toDo == 9) {
-                pets.walkAllDogs();
+                System.out.println(pets.walkAllDogs());
             } else if (toDo == 10) {
-                pets.cleanAllCages();
+                System.out.println(pets.cleanAllCages());
             } else if (toDo == 11) {
-                pets.addOilAll();
+                System.out.println(OrganicCat.cleanLitterBox() + "\n");
             } else if (toDo == 12) {
-                pets.cleanLitterBoxAll();
+                System.out.println(pets.addOilAll());
             } else {
                 System.out.println("The game has been closed!");
                 break;
@@ -139,7 +153,7 @@ public class VirtualPetShelterApp {
 
     private static void playSinglePet() {
         while (true) {
-            System.out.print("Enter name of the pet you want to play with: ");
+            System.out.print("Enter name of the organic pet you want to play with: ");
             String petName = scanner.nextLine();
             String formattedName = petName.substring(0, 1).toUpperCase()
                     + petName.substring(1).toLowerCase();
@@ -153,33 +167,33 @@ public class VirtualPetShelterApp {
     }
 
     private static void initialPets() {
-        pets.rescuePet(new OrganicDog("Mali", 10, 20));
-        pets.rescuePet(new OrganicCat("Kupa", 50, 40));
-        pets.rescuePet(new RoboticDog("RoboDog", 20, 40));
-        pets.rescuePet(new RoboticCat("RoboCat", 50, 10));
+        pets.rescuePet(new OrganicDog("Mali", 70));
+        pets.rescuePet(new OrganicCat("Kupa", 60));
+        pets.rescuePet(new RoboticDog("Robodog", 45));
+        pets.rescuePet(new RoboticCat("Robocat", 100));
     }
 
     private static void promptGameMenu() {
         System.out.println("What do you want to do?");
-        System.out.println("1. Give food to pets");
-        System.out.println("2. Give water to pets");
-        System.out.println("3. Make pets rest");
-        System.out.println("4. Play with pets");
-        System.out.println("5. Cure pets");
+        System.out.println("1. Give food to organic pets");
+        System.out.println("2. Give water to organic pets");
+        System.out.println("3. Make organic pets rest");
+        System.out.println("4. Play with organic pets");
+        System.out.println("5. Cure organic pets");
         System.out.println("6. Do nothing");
         System.out.println("7. Rescue a pet");
         System.out.println("8. Adopt a pet");
         System.out.println("9. Walk all dogs");
-        System.out.println("10. Clean dog cages");
-        System.out.println("11. Oil all robotic pets");
-        System.out.println("12. Clean the shelter litterbox");
+        System.out.println("10. Clean organic dogs cages");
+        System.out.println("11. Clean the organic cats shelter litterbox");
+        System.out.println("12. Oil all robotic pets");
         System.out.println("Enter any number except 1 to 12 to quit the game.");
         System.out.println();
         System.out.print("> ");
     }
 
     private static void promptFoodOptions() {
-        System.out.println("Choose food you want to feed the pets.");
+        System.out.println("Choose food you want to feed to the organic pets.");
         System.out.println("1. Pet food");
         System.out.println("2. Treats");
         System.out.println("3. Left-overs");
@@ -188,20 +202,34 @@ public class VirtualPetShelterApp {
         System.out.print("> ");
     }
 
-    private static void promptAdditionalDetails(String petName, String description) {
-        System.out.print("Please enter Pet's hunger level (any number from 0 to 99): ");
-        int hunger = scanner.nextInt();
-        System.out.print("Please enter Pet's thirst level (any number from 0 to 99): ");
-        int thirst = scanner.nextInt();
-        System.out.print("Please enter Pet's tiredness level (any number from 0 to 99): ");
-        int tiredness = scanner.nextInt();
-        System.out.print("Please enter Pet's boredom level (any number from 0 to 99): ");
-        int boredom = scanner.nextInt();
-        System.out.print("Please enter Pet's sickness level (any number from 0 to 99): ");
-        int sickness = scanner.nextInt();
-        System.out.println();
-        // pets.rescuePet(new OrganicCat(petName, description, hunger, thirst,
-        // tiredness, boredom, sickness));
+    private static void promptAdditionalDetails(String petName, int happiness, int typeOfPet) {
+        if (typeOfPet == 1 || typeOfPet == 2) {
+            System.out.print("Please enter organic pet's hunger level (any number from 0 to 99): ");
+            int hunger = scanner.nextInt();
+            System.out.print("Please enter organic pet's thirst level (any number from 0 to 99): ");
+            int thirst = scanner.nextInt();
+            System.out.print("Please enter organic pet's tiredness level (any number from 0 to 99): ");
+            int tiredness = scanner.nextInt();
+            System.out.print("Please enter organic pet's boredom level (any number from 0 to 99): ");
+            int boredom = scanner.nextInt();
+            System.out.print("Please enter organic pet's sickness level (any number from 0 to 99): ");
+            int sickness = scanner.nextInt();
+            System.out.println();
+            if (typeOfPet == 1)
+                pets.rescuePet(new OrganicDog(petName, happiness, hunger, thirst,
+                        tiredness, boredom, sickness));
+            else
+                pets.rescuePet(new OrganicCat(petName, happiness, hunger, thirst,
+                        tiredness, boredom, sickness));
+        } else {
+            System.out.print("Please enter Robotic pet's oil level (any number from 0 to 99): ");
+            int oilLevel = scanner.nextInt();
+            if (typeOfPet == 3)
+                pets.rescuePet(new RoboticDog(petName, happiness, oilLevel));
+            else
+                pets.rescuePet(new RoboticCat(petName, happiness, oilLevel));
+        }
+
     }
 
     private static void promptAdoptPet() {

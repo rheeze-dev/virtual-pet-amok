@@ -2,6 +2,7 @@ package pets_amok;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,8 +18,14 @@ public class VirtualPetShelter {
         return pets.get(name);
     }
 
-    public Set<String> getAllPetNames() {
-        return pets.keySet();
+    public Set<String> getAllOrganicPetNames() {
+        Set<String> petnames = new HashSet<String>();
+        for (VirtualPet pet : getAllPets()) {
+            if (pet instanceof OrganicPet) {
+                petnames.add(pet.getName());
+            }
+        }
+        return petnames;
     }
 
     public void rescuePet(VirtualPet newPet) {
@@ -89,34 +96,12 @@ public class VirtualPetShelter {
         return str.toString();
     }
 
-    public String performMaintenanceAll() {
-        StringBuilder str = new StringBuilder();
-        for (VirtualPet pet : getAllPets()) {
-            if (pet instanceof RoboticPet) {
-                RoboticPet roboticPet = (RoboticPet) pet;
-                str.append(roboticPet.performMaintenance(20) + "\n");
-            }
-        }
-        return str.toString();
-    }
-
     public String addOilAll() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
             if (pet instanceof RoboticPet) {
                 RoboticPet roboticPet = (RoboticPet) pet;
                 str.append(roboticPet.addOil(20) + "\n");
-            }
-        }
-        return str.toString();
-    }
-
-    public String cleanLitterBoxAll() {
-        StringBuilder str = new StringBuilder();
-        for (VirtualPet pet : getAllPets()) {
-            if (pet instanceof OrganicCat) {
-                OrganicCat organicCat = (OrganicCat) pet;
-                str.append(organicCat.cleanLitterBox() + "\n");
             }
         }
         return str.toString();
@@ -139,7 +124,7 @@ public class VirtualPetShelter {
             if (pet instanceof OrganicDog) {
                 OrganicDog organicDog = (OrganicDog) pet;
                 str.append(organicDog.walkDog(20) + "\n");
-            } else {
+            } else if (pet instanceof RoboticDog) {
                 RoboticDog roboticDog = (RoboticDog) pet;
                 str.append(roboticDog.walkDog(20) + "\n");
             }
@@ -148,9 +133,8 @@ public class VirtualPetShelter {
     }
 
     public boolean hasPetName(String name) {
-        if (pets.containsKey(name)) {
+        if (pets.keySet().contains(name))
             return true;
-        }
         return false;
     }
 
@@ -160,17 +144,15 @@ public class VirtualPetShelter {
         }
     }
 
-    public boolean areValuesLessThan100() {
+    public boolean isHealthGreaterThan0() {
         for (VirtualPet pet : getAllPets()) {
             if (pet instanceof OrganicPet) {
                 OrganicPet organicPet = (OrganicPet) pet;
-                if (organicPet.getHunger() >= 100 || organicPet.getThirst() >= 100 || organicPet.getTiredness() >= 100
-                        || organicPet.getBoredom() >= 100 || organicPet.getSickness() >= 100
-                        || organicPet.getHappiness() >= 100)
+                if (organicPet.getHealth() <= 0)
                     return false;
             } else {
                 RoboticPet roboticPet = (RoboticPet) pet;
-                if (roboticPet.getOilLevel() >= 100 || roboticPet.getHappiness() >= 100)
+                if (roboticPet.getHealth() <= 0)
                     return false;
             }
         }
@@ -192,12 +174,21 @@ public class VirtualPetShelter {
                     str.append(organicPet.getName() + " got soo bored!\n");
                 if (organicPet.getSickness() >= 100)
                     str.append(organicPet.getName() + " got soo sick!\n");
+                if (organicPet.getHappiness() <= 0)
+                    str.append(organicPet.getName() + " got soo sad!\n");
+                if (OrganicCat.getLitterBox() >= 100)
+                    str.append("Organic cats litterbox has overflowed and made all organic cats sick!");
+                if (organicPet instanceof OrganicDog) {
+                    OrganicDog organicDog = (OrganicDog) organicPet;
+                    if (organicDog.getCageCleanliness() >= 100)
+                        str.append(organicDog.getName() + "'s cage got so dirty!");
+                }
             } else {
                 RoboticPet roboticPet = (RoboticPet) pet;
-                if (roboticPet.getOilLevel() >= 100)
-                    str.append(roboticPet.getName() + " stopped working due to rust!");
-                if (roboticPet.getHappiness() >= 100)
-                    str.append(roboticPet.getName() + " stopped working due to sadness!");
+                if (roboticPet.getOilLevel() <= 0)
+                    str.append(roboticPet.getName() + " stopped working due to rust!\n");
+                if (roboticPet.getHappiness() <= 0)
+                    str.append(roboticPet.getName() + " stopped working due to sadness!\n");
             }
         }
         return str.toString();
@@ -209,9 +200,11 @@ public class VirtualPetShelter {
             if (pet instanceof OrganicPet) {
                 OrganicPet organicPet = (OrganicPet) pet;
                 str.append(organicPet.performPriorityNeed() + "\n");
+                organicPet.healthChecker();
             } else {
                 RoboticPet roboticPet = (RoboticPet) pet;
                 str.append(roboticPet.performPriorityNeed() + "\n");
+                roboticPet.healthChecker();
             }
         }
         return str.toString();
@@ -219,14 +212,17 @@ public class VirtualPetShelter {
 
     public String displayAllStats() {
         StringBuilder str = new StringBuilder();
-        str.append("Name\t\t|Hunger\t\t|Thirst\t\t|Tiredness\t|Boredom\t|Sickness\t|Happiness\t|Oil level\t|\n"
-                + "----------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|\n");
+        str.append(
+                "Name\t|Description\t|Hunger\t|Thirst\t|Tiredness\t|Boredom\t|Sickness\t|Cage\t|Litter box\t|Happiness\t|Oil\t|Health\t|\n"
+                        + "--------|---------------|-------|-------|---------------|---------------|---------------|-------|---------------|---------------|-------|-------|\n");
         for (VirtualPet pet : getAllPets()) {
             if (pet instanceof OrganicPet) {
                 OrganicPet organicPet = (OrganicPet) pet;
+                organicPet.healthChecker();
                 str.append(organicPet.displayStats() + "\n");
             } else {
                 RoboticPet roboticPet = (RoboticPet) pet;
+                roboticPet.healthChecker();
                 str.append(roboticPet.displayStats() + "\n");
             }
         }

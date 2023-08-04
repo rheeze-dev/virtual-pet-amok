@@ -11,19 +11,19 @@ public abstract class OrganicPet extends VirtualPet {
     private int sickness;
     private Random random = new Random();
 
-    public OrganicPet(String name, int health, int happiness) {
-        super(name, health, happiness);
+    public OrganicPet(String name, int happiness) {
+        super(name, happiness);
         this.setDescription("Organic Pet");
-        this.hunger = 10;
-        this.thirst = 20;
-        this.tiredness = 30;
-        this.boredom = 40;
-        this.sickness = 50;
+        this.hunger = 36;
+        this.thirst = 28;
+        this.tiredness = 12;
+        this.boredom = 25;
+        this.sickness = 10;
     }
 
-    public OrganicPet(String name, int health, int happiness, int hunger, int thirst, int tiredness, int boredom,
+    public OrganicPet(String name, int happiness, int hunger, int thirst, int tiredness, int boredom,
             int sickness) {
-        super(name, health, happiness);
+        super(name, happiness);
         this.setDescription("Organic Pet");
         this.hunger = hunger;
         this.thirst = thirst;
@@ -73,13 +73,7 @@ public abstract class OrganicPet extends VirtualPet {
     }
 
     @Override
-    public void tick() {
-        setHunger(getHunger() + 3);
-        setThirst(getThirst() + 3);
-        setTiredness(getTiredness() + 3);
-        setBoredom(getBoredom() + 3);
-        setSickness(getSickness() + 3);
-    }
+    public abstract void tick();
 
     public String feed(int value) {
         if (value == 30 || value == 20) {
@@ -171,12 +165,6 @@ public abstract class OrganicPet extends VirtualPet {
     }
 
     @Override
-    public String displayStats() {
-        return getName() + "\t\t|" + getHunger() + "%\t\t|" + getThirst() + "%\t\t|" + getTiredness()
-                + "%\t\t|" + getBoredom() + "%\t\t|" + getSickness() + "%\t\t|" + getHappiness() + "%\t\t|NA\t\t|";
-    }
-
-    @Override
     public String performPriorityNeed() {
         int[] arr = { getHunger(), getThirst(), getTiredness(), getBoredom(), getSickness() };
         int max = arr[0];
@@ -198,5 +186,4 @@ public abstract class OrganicPet extends VirtualPet {
         else
             return heal(5);
     }
-
 }
