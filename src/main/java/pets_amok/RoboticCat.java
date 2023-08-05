@@ -2,19 +2,19 @@ package pets_amok;
 
 public class RoboticCat extends RoboticPet {
 
-    public RoboticCat(String name, int happiness) {
-        super(name, happiness);
+    public RoboticCat(String name) {
+        super(name);
         this.setDescription("Robotic Cat");
     }
 
-    public RoboticCat(String name, int happiness, int oilLevel) {
-        super(name, happiness, oilLevel);
+    public RoboticCat(String name, int happiness, int oilLevel, int maintenance) {
+        super(name, happiness, oilLevel, maintenance);
         this.setDescription("Robotic Cat");
     }
 
     @Override
     public String performPriorityNeed() {
-        int[] arr = { getOilLevel(), getHappiness() };
+        int[] arr = { getOilLevel(), getHappiness(), getMaintenance() };
         int min = arr[0];
         int index = 0;
         for (int i = 1; i < arr.length; i++) {
@@ -25,6 +25,6 @@ public class RoboticCat extends RoboticPet {
         }
         if (index == 0)
             return addOil(5);
-        return "";
+        return performMaintenance(5);
     }
 }

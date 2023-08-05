@@ -55,7 +55,7 @@ public class VirtualPetShelterApp {
             } else if (toDo == 5)
                 System.out.println(pets.healAll());
             else if (toDo == 6)
-                System.out.println("Did nothing.");
+                System.out.println("Did nothing.\n");
             else if (toDo == 7) {
                 System.out.print(
                         "Press 1 if the pet is organic dog, press 2 if the pet is organic cat, press 3 if the pet is robotic dog, press 4 if the pet is robotic cat, press any number except 1 to 4 to change what you want to do: ");
@@ -75,20 +75,18 @@ public class VirtualPetShelterApp {
                 }
                 System.out.print("Please enter Pet's name: ");
                 String petName = petNameChecker();
-                System.out.print("Please enter organic pet's happiness level (any number from 0 to 99): ");
-                int happiness = scanner.nextInt();
                 if (input == 1)
-                    promptAdditionalDetails(petName, happiness, typeOfPet);
+                    promptAdditionalDetails(petName, typeOfPet);
                 else {
                     System.out.println();
                     if (typeOfPet == 1)
-                        pets.rescuePet(new OrganicDog(petName, happiness));
+                        pets.rescuePet(new OrganicDog(petName));
                     else if (typeOfPet == 2)
-                        pets.rescuePet(new OrganicCat(petName, happiness));
+                        pets.rescuePet(new OrganicCat(petName));
                     else if (typeOfPet == 3)
-                        pets.rescuePet(new RoboticDog(petName, happiness));
+                        pets.rescuePet(new RoboticDog(petName));
                     else
-                        pets.rescuePet(new RoboticCat(petName, happiness));
+                        pets.rescuePet(new RoboticCat(petName));
                 }
             } else if (toDo == 8) {
                 promptAdoptPet();
@@ -100,6 +98,8 @@ public class VirtualPetShelterApp {
             } else if (toDo == 11) {
                 System.out.println(OrganicCat.cleanLitterBox() + "\n");
             } else if (toDo == 12) {
+                System.out.println(pets.performMaintenanceAll());
+            } else if (toDo == 13) {
                 System.out.println(pets.addOilAll());
             } else {
                 System.out.println("The game has been closed!");
@@ -167,10 +167,10 @@ public class VirtualPetShelterApp {
     }
 
     private static void initialPets() {
-        pets.rescuePet(new OrganicDog("Mali", 70));
-        pets.rescuePet(new OrganicCat("Kupa", 60));
-        pets.rescuePet(new RoboticDog("Robodog", 45));
-        pets.rescuePet(new RoboticCat("Robocat", 100));
+        pets.rescuePet(new OrganicDog("Mali"));
+        pets.rescuePet(new OrganicCat("Kupa"));
+        pets.rescuePet(new RoboticDog("Robodog"));
+        pets.rescuePet(new RoboticCat("Robocat"));
     }
 
     private static void promptGameMenu() {
@@ -186,8 +186,9 @@ public class VirtualPetShelterApp {
         System.out.println("9. Walk all dogs");
         System.out.println("10. Clean organic dogs cages");
         System.out.println("11. Clean the organic cats shelter litterbox");
-        System.out.println("12. Oil all robotic pets");
-        System.out.println("Enter any number except 1 to 12 to quit the game.");
+        System.out.println("12. Perform maintenance to all robotic pets");
+        System.out.println("13. Oil all robotic pets");
+        System.out.println("Enter any number except 1 to 13 to quit the game.");
         System.out.println();
         System.out.print("> ");
     }
@@ -202,17 +203,25 @@ public class VirtualPetShelterApp {
         System.out.print("> ");
     }
 
-    private static void promptAdditionalDetails(String petName, int happiness, int typeOfPet) {
+    private static void promptAdditionalDetails(String petName, int typeOfPet) {
+        System.out.print("Please enter organic pet's happiness level (any number from 0 to 99): ");
+        inputChecker();
+        int happiness = scanner.nextInt();
         if (typeOfPet == 1 || typeOfPet == 2) {
             System.out.print("Please enter organic pet's hunger level (any number from 0 to 99): ");
+            inputChecker();
             int hunger = scanner.nextInt();
             System.out.print("Please enter organic pet's thirst level (any number from 0 to 99): ");
+            inputChecker();
             int thirst = scanner.nextInt();
             System.out.print("Please enter organic pet's tiredness level (any number from 0 to 99): ");
+            inputChecker();
             int tiredness = scanner.nextInt();
             System.out.print("Please enter organic pet's boredom level (any number from 0 to 99): ");
+            inputChecker();
             int boredom = scanner.nextInt();
             System.out.print("Please enter organic pet's sickness level (any number from 0 to 99): ");
+            inputChecker();
             int sickness = scanner.nextInt();
             System.out.println();
             if (typeOfPet == 1)
@@ -223,13 +232,17 @@ public class VirtualPetShelterApp {
                         tiredness, boredom, sickness));
         } else {
             System.out.print("Please enter Robotic pet's oil level (any number from 0 to 99): ");
+            inputChecker();
             int oilLevel = scanner.nextInt();
+            System.out.print("Please enter Robotic pet's maintenance level (any number from 0 to 99): ");
+            inputChecker();
+            int maintenance = scanner.nextInt();
+            System.out.println();
             if (typeOfPet == 3)
-                pets.rescuePet(new RoboticDog(petName, happiness, oilLevel));
+                pets.rescuePet(new RoboticDog(petName, happiness, oilLevel, maintenance));
             else
-                pets.rescuePet(new RoboticCat(petName, happiness, oilLevel));
+                pets.rescuePet(new RoboticCat(petName, happiness, oilLevel, maintenance));
         }
-
     }
 
     private static void promptAdoptPet() {

@@ -11,9 +11,8 @@ public abstract class OrganicPet extends VirtualPet {
     private int sickness;
     private Random random = new Random();
 
-    public OrganicPet(String name, int happiness) {
-        super(name, happiness);
-        this.setDescription("Organic Pet");
+    public OrganicPet(String name) {
+        super(name);
         this.hunger = 36;
         this.thirst = 28;
         this.tiredness = 12;
@@ -23,13 +22,13 @@ public abstract class OrganicPet extends VirtualPet {
 
     public OrganicPet(String name, int happiness, int hunger, int thirst, int tiredness, int boredom,
             int sickness) {
-        super(name, happiness);
-        this.setDescription("Organic Pet");
+        super(name);
         this.hunger = hunger;
         this.thirst = thirst;
         this.tiredness = tiredness;
         this.boredom = boredom;
         this.sickness = sickness;
+        this.setHappiness(happiness);
     }
 
     public int getHunger() {
@@ -88,7 +87,7 @@ public abstract class OrganicPet extends VirtualPet {
             if (getHunger() <= 100) {
                 setHunger(getHunger() - value < 0 ? 0 : getHunger() - value);
                 setThirst(getThirst() + value);
-                return getName() + " ate on his own.";
+                return getName() + " ate on it's own.";
             }
             return getName() + " has reached it's starvation limit.";
         }
@@ -100,7 +99,7 @@ public abstract class OrganicPet extends VirtualPet {
             return "You gave water to " + getName() + ".";
         else {
             if (getThirst() <= 100)
-                return getName() + " drank water on his own.";
+                return getName() + " drank water on it's own.";
             return getName() + " has reached it's dehydration limit.";
         }
     }
@@ -118,7 +117,7 @@ public abstract class OrganicPet extends VirtualPet {
             if (getTiredness() <= 100) {
                 setTiredness(getTiredness() - value < 0 ? 0 : getTiredness() - value);
                 setBoredom(getBoredom() + value);
-                return getName() + " took a nap on his own.";
+                return getName() + " took a nap on it's own.";
             }
             return getName() + " has reached it's tiredness limit.";
         }
@@ -143,7 +142,7 @@ public abstract class OrganicPet extends VirtualPet {
                 setHunger(getHunger() + value);
                 setThirst(getThirst() + value);
                 setSickness(getSickness() + value);
-                return getName() + " played on his own.";
+                return getName() + " played on it's own.";
             }
             return getName() + " has reached it's boredom limit.";
         }

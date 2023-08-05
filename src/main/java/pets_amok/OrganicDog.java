@@ -5,8 +5,8 @@ public class OrganicDog extends OrganicPet implements Dog {
     private int waste = 0;
     private int cageCleanliness;
 
-    public OrganicDog(String name, int happiness) {
-        super(name, happiness);
+    public OrganicDog(String name) {
+        super(name);
         this.setDescription("Organic Dog");
     }
 
@@ -43,18 +43,19 @@ public class OrganicDog extends OrganicPet implements Dog {
 
     @Override
     public void tick() {
-        setHunger(getHunger() + 3);
-        setThirst(getThirst() + 3);
-        setTiredness(getTiredness() + 3);
-        setBoredom(getBoredom() + 3);
-        setSickness(getSickness() + 3);
+        setHunger(getHunger() + 10);
+        setThirst(getThirst() + 10);
+        setTiredness(getTiredness() + 10);
+        setBoredom(getBoredom() + 10);
+        setSickness(getSickness() + 10);
+        setHappiness(getHappiness() - 10);
         setWaste(getWaste() + 1);
     }
 
     @Override
     public String walkDog(int value) {
-        setHappiness(getHappiness() + value);
-        setBoredom(getBoredom() - value);
+        setHappiness(getHappiness() + value >= 100 ? 100 : getHappiness() + value);
+        setBoredom(getBoredom() - value <= 0 ? 0 : getBoredom() - value);
         setHunger(getHunger() + value);
         setThirst(getThirst() + value);
         setTiredness(getTiredness() + value);
@@ -83,9 +84,8 @@ public class OrganicDog extends OrganicPet implements Dog {
     @Override
     public String displayStats() {
         return getName() + "\t|" + getDescription() + "\t|" + getHunger() + "%\t|" + getThirst() + "%\t|"
-                + getTiredness()
-                + "%\t\t|" + getBoredom() + "%\t\t|" + getSickness() + "%\t\t|" + getCageCleanliness() + "%\t|"
-                + "NA\t\t|" + getHappiness() + "%\t\t|NA\t|" + getHealth() + "%\t|";
+                + getTiredness() + "%\t\t|" + getBoredom() + "%\t|" + getSickness() + "%\t\t|" + getCageCleanliness()
+                + "%\t|" + "NA\t\t|" + getHappiness() + "%\t\t|NA\t\t|NA  |" + getHealth() + "%\t\t|";
     }
 
 }

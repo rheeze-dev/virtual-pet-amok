@@ -7,8 +7,8 @@ public class OrganicCat extends OrganicPet {
     private static int litterBox = 0;
     private Random random = new Random();
 
-    public OrganicCat(String name, int happiness) {
-        super(name, happiness);
+    public OrganicCat(String name) {
+        super(name);
         this.setDescription("Organic Cat");
     }
 
@@ -33,13 +33,14 @@ public class OrganicCat extends OrganicPet {
 
     @Override
     public void tick() {
-        setHunger(getHunger() + 3);
-        setThirst(getThirst() + 3);
-        setTiredness(getTiredness() + 3);
-        setBoredom(getBoredom() + 3);
-        setSickness(getSickness() + 3);
+        setHunger(getHunger() + 10);
+        setThirst(getThirst() + 10);
+        setTiredness(getTiredness() + 10);
+        setBoredom(getBoredom() + 10);
+        setSickness(getSickness() + 10);
+        setHappiness(getHappiness() - 10);
         if (random.nextInt(160) >= 80)
-            setLitterBox(getLitterBox() + 5);
+            setLitterBox(getLitterBox() + 10);
     }
 
     @Override
@@ -60,10 +61,8 @@ public class OrganicCat extends OrganicPet {
     @Override
     public String displayStats() {
         return getName() + "\t|" + getDescription() + "\t|" + getHunger() + "%\t|" + getThirst() + "%\t|"
-                + getTiredness()
-                + "%\t\t|" + getBoredom() + "%\t\t|" + getSickness() + "%\t\t|" + "NA\t|"
-                + OrganicCat.getLitterBox()
-                + "%\t\t|" + getHappiness() + "%\t\t|NA\t|" + getHealth() + "%\t|";
+                + getTiredness() + "%\t\t|" + getBoredom() + "%\t|" + getSickness() + "%\t\t|NA\t|"
+                + OrganicCat.getLitterBox() + "%\t\t|" + getHappiness() + "%\t\t|NA\t\t|NA  |" + getHealth() + "%\t\t|";
     }
 
 }

@@ -96,6 +96,17 @@ public class VirtualPetShelter {
         return str.toString();
     }
 
+    public String performMaintenanceAll() {
+        StringBuilder str = new StringBuilder();
+        for (VirtualPet pet : getAllPets()) {
+            if (pet instanceof RoboticPet) {
+                RoboticPet roboticPet = (RoboticPet) pet;
+                str.append(roboticPet.performMaintenance(20) + "\n");
+            }
+        }
+        return str.toString();
+    }
+
     public String addOilAll() {
         StringBuilder str = new StringBuilder();
         for (VirtualPet pet : getAllPets()) {
@@ -161,6 +172,7 @@ public class VirtualPetShelter {
 
     public String displayMessage() {
         StringBuilder str = new StringBuilder();
+        boolean isLitterBoxMessageDisplayed = false;
         for (VirtualPet pet : getAllPets()) {
             if (pet instanceof OrganicPet) {
                 OrganicPet organicPet = (OrganicPet) pet;
@@ -176,8 +188,12 @@ public class VirtualPetShelter {
                     str.append(organicPet.getName() + " got soo sick!\n");
                 if (organicPet.getHappiness() <= 0)
                     str.append(organicPet.getName() + " got soo sad!\n");
-                if (OrganicCat.getLitterBox() >= 100)
-                    str.append("Organic cats litterbox has overflowed and made all organic cats sick!");
+                if (OrganicCat.getLitterBox() >= 100) {
+                    if (!isLitterBoxMessageDisplayed) {
+                        str.append("Organic cats litterbox has overflowed and made all organic cats sick!");
+                        isLitterBoxMessageDisplayed = true;
+                    }
+                }
                 if (organicPet instanceof OrganicDog) {
                     OrganicDog organicDog = (OrganicDog) organicPet;
                     if (organicDog.getCageCleanliness() >= 100)
@@ -187,6 +203,9 @@ public class VirtualPetShelter {
                 RoboticPet roboticPet = (RoboticPet) pet;
                 if (roboticPet.getOilLevel() <= 0)
                     str.append(roboticPet.getName() + " stopped working due to rust!\n");
+                if (roboticPet.getMaintenance() <= 0)
+                    str.append(
+                            roboticPet.getName() + " stopped working due to damaged parts from lack of maintenance!");
                 if (roboticPet.getHappiness() <= 0)
                     str.append(roboticPet.getName() + " stopped working due to sadness!\n");
             }
@@ -213,8 +232,8 @@ public class VirtualPetShelter {
     public String displayAllStats() {
         StringBuilder str = new StringBuilder();
         str.append(
-                "Name\t|Description\t|Hunger\t|Thirst\t|Tiredness\t|Boredom\t|Sickness\t|Cage\t|Litter box\t|Happiness\t|Oil\t|Health\t|\n"
-                        + "--------|---------------|-------|-------|---------------|---------------|---------------|-------|---------------|---------------|-------|-------|\n");
+                "Name\t|Description\t|Hunger\t|Thirst\t|Tiredness\t|Boredom|Sickness\t|Cage\t|Litter box\t|Happiness\t|Maintenance\t|Oil |Health\t|\n"
+                        + "--------|---------------|-------|-------|---------------|-------|---------------|-------|---------------|---------------|---------------|----|--------|\n");
         for (VirtualPet pet : getAllPets()) {
             if (pet instanceof OrganicPet) {
                 OrganicPet organicPet = (OrganicPet) pet;

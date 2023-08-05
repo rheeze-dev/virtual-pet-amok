@@ -7,12 +7,8 @@ public abstract class VirtualPet {
     private int happiness;
 
     public VirtualPet(String name) {
-    }
-
-    public VirtualPet(String name, int happiness) {
         this.name = name;
-        this.description = "Virtual Pet";
-        this.happiness = happiness;
+        this.happiness = 83;
         this.health = 100;
     }
 

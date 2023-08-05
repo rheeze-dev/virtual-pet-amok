@@ -2,22 +2,21 @@ package pets_amok;
 
 public class RoboticDog extends RoboticPet implements Dog {
 
-    public RoboticDog(String name, int happiness) {
-        super(name, happiness);
+    public RoboticDog(String name) {
+        super(name);
         this.setDescription("Robotic Dog");
     }
 
-    public RoboticDog(String name, int happiness, int oilLevel) {
-        super(name, happiness, oilLevel);
+    public RoboticDog(String name, int happiness, int oilLevel, int maintenance) {
+        super(name, happiness, oilLevel, maintenance);
         this.setDescription("Robotic Dog");
     }
 
     @Override
     public String walkDog(int value) {
-        setHappiness(getHappiness() + value);
+        setHappiness(getHappiness() + value >= 100 ? 100 : getHappiness() + value);
         setOilLevel(getOilLevel() - value);
-        if (getHappiness() >= 100)
-            setHappiness(100);
+        setMaintenance(getMaintenance() + value);
         if (value == 20)
             return "You took " + getName() + " for a walk.";
         return getName() + " went for a walk on his own.";
@@ -25,7 +24,7 @@ public class RoboticDog extends RoboticPet implements Dog {
 
     @Override
     public String performPriorityNeed() {
-        int[] arr = { getOilLevel(), getHappiness() };
+        int[] arr = { getOilLevel(), getHappiness(), getMaintenance() };
         int min = arr[0];
         int index = 0;
         for (int i = 1; i < arr.length; i++) {
@@ -36,7 +35,8 @@ public class RoboticDog extends RoboticPet implements Dog {
         }
         if (index == 0)
             return addOil(5);
-        else
+        else if (index == 1)
             return walkDog(5);
+        return performMaintenance(5);
     }
 }
